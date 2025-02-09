@@ -1,0 +1,16 @@
+export enum StatusEnum {
+  active = 'Active',
+  inActive = 'Inactive',
+  notVerified = 'Not Verified',
+  systemVerified = 'System Verified',
+  closed = 'Closed',
+  pending = 'Pending',
+  rejected = 'Rejected',
+  expired = 'Expired',
+  cancelled = 'Cancelled',
+  past = 'Past',
+  paid = 'Paid',
+  notPaid = 'Not Paid',
+  completed = 'Completed',
+  deleted = 'Deleted',
+}
