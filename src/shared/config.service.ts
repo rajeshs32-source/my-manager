@@ -27,15 +27,15 @@ export class ConfigService {
     return this.environment;
   }
 
-  static getAwsConfig() {
-    return {
-      region: EnvironmentConfigEnum[ConfigService.getEnvironment()].REGION,
-      accessKeyId:
-        EnvironmentConfigEnum[ConfigService.getEnvironment()].ACCESS_KEY_ID,
-      secretAccessKey:
-        EnvironmentConfigEnum[ConfigService.getEnvironment()].SECRET_ACCESS_KEY,
-    };
-  }
+  //   static getAwsConfig() {
+  //     return {
+  //       region: EnvironmentConfigEnum[ConfigService.getEnvironment()].REGION,
+  //       accessKeyId:
+  //         EnvironmentConfigEnum[ConfigService.getEnvironment()].ACCESS_KEY_ID,
+  //       secretAccessKey:
+  //         EnvironmentConfigEnum[ConfigService.getEnvironment()].SECRET_ACCESS_KEY,
+  //     };
+  //   }
 
   static getConfig() {
     return {
