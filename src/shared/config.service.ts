@@ -1,4 +1,4 @@
-import { EnvironmentConfigEnum } from 'src/enums/environmentConfig.enum';
+// import { EnvironmentConfigEnum } from 'src/enums/environmentConfig.enum';
 
 export class ConfigService {
   static environment;
