@@ -12,8 +12,7 @@ mongoose.set('strictQuery', false);
   imports: [
     MongooseModule.forRootAsync({
       useFactory: async (): Promise<MongooseModuleOptions> => {
-        const uri =
-          'mongodb+srv://rajesh23:Gm4eg27uVTVoZBXz@workshopcluster.twtcs.mongodb.net/?retryWrites=true&w=majority&appName=WorkshopCluster';
+        const uri = process.env.dbUri;
         mongoose.connection.on('connected', () => {
           console.log('MongoDB Connected successfully');
         });
