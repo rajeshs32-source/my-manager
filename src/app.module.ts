@@ -6,7 +6,6 @@ import { AdminModule } from './apis/admin/admin.module';
 import { RouterModule } from '@nestjs/core';
 import mongoose from 'mongoose';
 
-mongoose.set('debug', true);
 mongoose.set('strictQuery', false);
 @Module({
   imports: [

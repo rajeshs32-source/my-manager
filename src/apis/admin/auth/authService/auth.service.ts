@@ -4,7 +4,7 @@ import mongoose, { Model } from 'mongoose';
 import * as jsonwebtoken from 'jsonwebtoken';
 import { jwtSecretKey } from 'src/config';
 import { Auth, AuthEntity } from 'src/entity/auth.entity';
-import { AuthRequestDto, SignupRequestDto } from 'src/dto/adminRequest.dto';
+import { AuthRequestDto, AuthDto } from 'src/dto/adminRequest.dto';
 import { UserService } from 'src/shared/user.service';
 import { CommonPasswordService } from 'src/shared/commonPassword.service';
 import { UserContextService } from 'src/shared/userContext.service';
@@ -39,39 +39,37 @@ export class AuthService {
     return this.generateToken(userData);
   }
 
-  async signup(signupRequestDto: SignupRequestDto) {
+  async signup(signupRequestDto: AuthDto) {
     const {
       username,
       password,
-      firstName,
-      lastName,
-      termsAndCondChecked,
-      addressline1,
-      addressline2,
-      city,
-      postalCode,
+      fullName,
+      phoneNumber,
       accessType,
+      roles,
+      permissions,
+      status,
     } = signupRequestDto;
 
     await this._userService.usernameCheck(username);
     await this._commonPasswordService.commonPasswordCheck(password);
+
     const result = await new this._authDb({
       username,
       password: bcrypt.hashSync(password, this.saltRounds),
-      firstName,
-      lastName,
-      'address.addressline1': addressline1,
-      'address.addressline2': addressline2,
-      'address.city': city,
-      'address.postalCode': postalCode,
-      termsAndCondChecked,
-      status: 'Active',
+      fullName,
+      phoneNumber,
+      roles: roles.map((role) => role.trim()), // Trim each role
+      permissions: permissions.map((perm) => perm.trim()),
+      status, // Default status
       accessType,
     }).save();
+
     const userId = result._id as unknown as mongoose.Schema.Types.ObjectId;
     await this._userContextService.updateStatus(userId, {
-      status: StatusEnum.active,
+      status: StatusEnum.notVerified,
     });
+
     return result;
   }
 
@@ -83,5 +81,9 @@ export class AuthService {
       token_type: 'Bearer',
     };
     return sendToken;
+  }
+
+  async getAllUsersService() {
+    return await this._authDb.find();
   }
 }

@@ -1,7 +1,7 @@
-import { Controller, HttpStatus, Res, Post, Body } from '@nestjs/common';
+import { Controller, HttpStatus, Res, Post, Body, Get } from '@nestjs/common';
 import { Response } from 'express';
 import { AuthService } from '../authService/auth.service';
-import { AuthRequestDto, SignupRequestDto } from 'src/dto/adminRequest.dto';
+import { AuthRequestDto, AuthDto } from 'src/dto/adminRequest.dto';
 import { GlobalResponseDto } from 'src/dto/global.response.dto';
 import { AuthValidator } from 'src/validators/authvalidator';
 @Controller('auth')
@@ -23,10 +23,7 @@ export class AuthController {
   }
 
   @Post('signUp')
-  async signUp(
-    @Res() response: Response,
-    @Body() signupRequestDto: SignupRequestDto,
-  ) {
+  async signUp(@Res() response: Response, @Body() signupRequestDto: AuthDto) {
     // validate input
     await AuthValidator.validateSignup(signupRequestDto);
     const msg = await this._consumerAuthService.signup(signupRequestDto);
@@ -34,5 +31,14 @@ export class AuthController {
     return response
       .status(HttpStatus.OK)
       .json(new GlobalResponseDto(HttpStatus.OK, '', msg, []));
+  }
+
+  @Get('getAllUsers')
+  async getAllUsers(@Res() response: Response) {
+    const users = await this._consumerAuthService.getAllUsersService();
+
+    return response
+      .status(HttpStatus.OK)
+      .json(new GlobalResponseDto(HttpStatus.OK, '', users, []));
   }
 }
