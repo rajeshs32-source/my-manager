@@ -5,6 +5,7 @@ import { MongooseModule, MongooseModuleOptions } from '@nestjs/mongoose';
 import { AdminModule } from './apis/admin/admin.module';
 import { RouterModule } from '@nestjs/core';
 import mongoose from 'mongoose';
+import { ConsumerModule } from './consumer/consumer.module';
 
 mongoose.set('strictQuery', false);
 @Module({
@@ -25,6 +26,7 @@ mongoose.set('strictQuery', false);
       },
     }),
     AdminModule,
+    ConsumerModule,
     RouterModule.register([
       {
         path: 'admin',

@@ -1,22 +1,14 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { BaseEntity } from './base.entity';
 import { StatusEnum } from 'src/enums/status.enum';
+import { RoleEnum } from 'src/enums/role.enum';
 
 export type UserEntity = User & Document;
 
 @Schema({ collection: 'users', timestamps: true })
 export class User extends BaseEntity {
   @Prop({ default: '' })
-  firstName: string;
-
-  @Prop({ default: '' })
-  lastName: string;
-
-  @Prop()
-  username: string;
-
-  @Prop()
-  password: string;
+  name: string;
 
   @Prop({ type: Object })
   address: {
@@ -26,38 +18,17 @@ export class User extends BaseEntity {
     postalCode: string;
   };
 
-  @Prop()
-  accessType: string;
+  @Prop({ default: RoleEnum.customer })
+  role: string;
 
   @Prop()
-  termsAndCondChecked: boolean;
+  phone: string;
 
   @Prop({ default: StatusEnum.active })
   status: string;
 
-  // @Prop()
-  // lastPwdChangedDate: Date;
-
-  // @Prop({ default: '' })
-  // city: string;
-
-  // @Prop({ default: null })
-  // avatar: string;
-
-  // @Prop({ default: '' })
-  // gender: string;
-
-  // @Prop({ default: null })
-  // lastlogin: Date;
-
-  // @Prop({ default: false })
-  // isGenericCode: boolean;
-
-  // @Prop({ type: Object })
-  // mfaVerificationDetails: {
-  //   phoneNumber: string;
-  //   phoneNumberVerifiedDate: Date;
-  // };
+  @Prop({ default: null })
+  avatar: string;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
